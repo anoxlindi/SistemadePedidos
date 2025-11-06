@@ -2,9 +2,8 @@
 package sistemadepedidosfactural.logica;
 
 public class CalculadoraImpuestos {
-        public double calcularSubtotal(String producto, int cantidad) {
-        // Simulación: cada producto cuesta 10.0
-        return 10.0 * cantidad;
+        public double calcularSubtotal(double precioUnitario , int cantidad) {
+        return precioUnitario * cantidad;
     }
 
     public double calcularIGV(double subtotal) {
