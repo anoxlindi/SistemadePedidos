@@ -2,17 +2,20 @@ package sistemadepedidosfactural.logica;
 
 public class PedidoFacade {
     private ValidadorStock validadorStock;
-    private CalculadoraImpuestos calculadoraImpuestos;
-    private RepositorioPedido repositorioPedido;
+    private RepositoryPedido repositorioPedido;
     private GeneradorComprobante generadorComprobante;
     private ServicioFactura servicioFactura;
+    private ImpuestoStrategy estrategiaImpuesto;
 
     public PedidoFacade() {
         this.validadorStock = new ValidadorStock();
-        this.calculadoraImpuestos = new CalculadoraImpuestos();
-        this.repositorioPedido = new RepositorioPedido();
+        this.repositorioPedido = new RepositoryPedido();
         this.generadorComprobante = new GeneradorComprobante();
         this.servicioFactura = new FacturaAdapter(); // Usa el adaptador
+    }
+
+    public void setEstrategiaImpuesto(ImpuestoStrategy estrategia) {
+        this.estrategiaImpuesto = estrategia;
     }
 
     public void registrarPedido(String nombre, String producto, int cantidad, double precioUnitario) {
@@ -21,11 +24,11 @@ public class PedidoFacade {
             return;
         }
 
-        double subtotal = calculadoraImpuestos.calcularSubtotal(precioUnitario, cantidad);
-        double igv = calculadoraImpuestos.calcularIGV(subtotal);
-        double total = calculadoraImpuestos.calcularTotal(subtotal, igv);
+        double subtotal = cantidad * precioUnitario;
+        double igv = estrategiaImpuesto.calcularImpuesto(subtotal);
+        double total = subtotal + igv;
 
-        repositorioPedido.registrar(nombre, producto, cantidad);
+        RepositoryPedido.registrar(nombre, producto, cantidad);
         generadorComprobante.generar(nombre, producto, cantidad, subtotal, igv, total);
         servicioFactura.generarFactura(nombre, producto, cantidad, subtotal, igv, total);
     }
