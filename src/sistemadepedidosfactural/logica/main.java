@@ -21,6 +21,17 @@ public class main {
         System.out.print("Ingrese precio unitario: ");
         double precioUnitario = scanner.nextDouble();
 
+        scanner.nextLine(); // limpiar buffer
+
+        System.out.print("¿El pedido está exonerado de IGV? (s/n): ");
+        String respuesta = scanner.nextLine();
+
+        if (respuesta.equalsIgnoreCase("s")) {
+            fachada.setEstrategiaImpuesto(new ExoneradoStrategy());
+        } else {
+            fachada.setEstrategiaImpuesto(new IGV18strategy());
+        }
+
         fachada.registrarPedido(nombre, producto, cantidad, precioUnitario);
     }
 }

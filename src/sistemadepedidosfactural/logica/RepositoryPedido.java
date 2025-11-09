@@ -1,21 +1,18 @@
-
 package sistemadepedidosfactural.logica;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RepositoryPedido {
+    private List<Cliente> clientes = new ArrayList<>();
 
-    static void registrar(String nombre, String producto, int cantidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-       private List<Cliente> pedidos = new ArrayList<>();
-
-    public void guardar(Cliente cliente) {
-        pedidos.add(cliente);
-        System.out.println("Pedido guardado correctamente.");
+    public void registrar(String nombre, String producto, int cantidad) {
+        Cliente cliente = new Cliente(nombre, producto, cantidad);
+        clientes.add(cliente);
+        System.out.println("Pedido registrado: " + cliente);
     }
 
     public List<Cliente> obtenerTodos() {
-        return pedidos;
-    }}
+        return clientes;
+    }
+}

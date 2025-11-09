@@ -28,7 +28,7 @@ public class PedidoFacade {
         double igv = estrategiaImpuesto.calcularImpuesto(subtotal);
         double total = subtotal + igv;
 
-        RepositoryPedido.registrar(nombre, producto, cantidad);
+        repositorioPedido.registrar(nombre, producto, cantidad);
         generadorComprobante.generar(nombre, producto, cantidad, subtotal, igv, total);
         servicioFactura.generarFactura(nombre, producto, cantidad, subtotal, igv, total);
     }
