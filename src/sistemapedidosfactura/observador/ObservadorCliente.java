@@ -1,14 +1,8 @@
 package sistemapedidosfactura.observador;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Analia
- */
-public class ObservadorCliente {
-    
+public class ObservadorCliente implements Observador {
+     @Override
+    public void actualizar(String evento) {
+        System.out.println("[Cliente] Notificado: " + evento);
+    }
 }
