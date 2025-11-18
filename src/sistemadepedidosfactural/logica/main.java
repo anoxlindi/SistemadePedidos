@@ -1,6 +1,8 @@
 package sistemadepedidosfactural.logica;
 
 import java.util.Scanner;
+import sistemapedidosfactura.hilos.*;
+import sistemapedidosfactura.observador.*;
 
 public class main {
     public static void main(String[] args) {
@@ -23,7 +25,7 @@ public class main {
 
         scanner.nextLine(); // limpiar buffer
 
-        System.out.print("¿El pedido está exonerado de IGV? (s/n): ");
+        System.out.print("¿El pedido esta exonerado de IGV? (s/n): ");
         String respuesta = scanner.nextLine();
 
         if (respuesta.equalsIgnoreCase("s")) {
@@ -32,6 +34,29 @@ public class main {
             fachada.setEstrategiaImpuesto(new IGV18strategy());
         }
 
+        // Registrar pedido en la fachada
         fachada.registrarPedido(nombre, producto, cantidad, precioUnitario);
+
+        // === INTEGRACIon de observador e hilos ===
+
+        // 1. Crear SubjectFactura y registrar observadores
+        SubjectFactura subject = new SubjectFactura();
+        subject.registrar(new ObservadorCliente());
+        subject.registrar(new ObservadorInventario());
+
+        // 2. Crear recurso compartido
+        PedidoCompartido pedido = new PedidoCompartido();
+        pedido.nombre = nombre;
+        pedido.producto = producto;
+        pedido.cantidad = cantidad;
+        pedido.precioUnitario = precioUnitario;
+
+        // 3. Crear hilos
+        HiloPedido hiloPedido = new HiloPedido(pedido, subject);
+        HiloFactura hiloFactura = new HiloFactura(pedido, subject);
+
+        // 4. Iniciar hilos
+        hiloPedido.start();
+        hiloFactura.start();
     }
 }
