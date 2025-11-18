@@ -1,13 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package sistemapedidosfactura.hilos;
 
-/**
- *
- * @author Analia
- */
-public class HiloPedido {
+import sistemapedidosfactura.observador.SubjectFactura;
+
+public class HiloPedido extends Thread {
+    private PedidoCompartido pedido;
+    private SubjectFactura subject;
+
+    public HiloPedido(PedidoCompartido pedido, SubjectFactura subject) {
+        this.pedido = pedido;
+        this.subject = subject;
+    }
+
+    @Override
+    public void run() {
+        try {
+            System.out.println("[Pedido] Procesando pedido de " + pedido.nombre);
+            Thread.sleep(2000); // Simula tiempo de procesamiento
+            pedido.listo = true;
+            System.out.println("[Pedido] Pedido listo");
+            subject.notificar("Pedido procesado");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     
 }

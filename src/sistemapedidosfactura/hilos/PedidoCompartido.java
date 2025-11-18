@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package sistemapedidosfactura.hilos;
 
-/**
- *
- * @author Analia
- */
 public class PedidoCompartido {
-    
+    public String nombre;
+    public String producto;
+    public int cantidad;
+    public double precioUnitario;
+    public boolean listo = false;
 }
